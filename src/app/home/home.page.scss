@@ -1,27 +1,149 @@
-#container {
-  text-align: center;
 
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+
+ion-header {
+  ion-toolbar {
+    --background: #0a0a0a;
+    --color: #ffffff;
+  }
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+.contain-form{
+  max-width: 960px;
+  width: 95%;
+  margin: 24px auto;
+  padding: 20px;
+  background: transparent; 
+  border-radius: 12px;
+  box-sizing: border-box;
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
+.ionic-list {
+  background: transparent;
+  width: 100%;
   margin: 0;
+  padding: 0;
 }
 
-#container a {
-  text-decoration: none;
+ion-item {
+  margin-bottom: 16px;
+  border-radius: 10px;
+  width: 100%; 
+  display: block;
+}
+
+
+.required-star {
+  color: #00bcd4;
+  font-size: 1.2em;
+}
+
+
+
+.custom-textarea {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+
+  ion-textarea {
+    --color: #ffffff;
+    --placeholder-color: #666666;
+    --placeholder-opacity: 1;
+    padding-top: 10px;
+  }
+}
+
+ion-input,
+ion-textarea,
+ion-select,
+ion-datetime-button {
+  width: 100%;
+  --padding-start: 12px;
+}
+
+ion-select,
+ion-datetime-button {
+  --color: #ffffff;
+  --placeholder-color: #666666;
+}
+
+ion-grid {
+  padding: 0;
+
+  ion-col {
+    padding: 0 4px;
+
+    &:first-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      padding-right: 0;
+    }
+  }
+}
+
+.modal-buttons {
+  padding: 16px;
+
+  .save-button {
+    --background: #00bcd4;
+    --color: #000000;
+    font-weight: bold;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    height: 50px;
+  }
+
+  .cancel-button {
+    --background: #1e1e1e;
+    --color: #ffffff;
+    --border-color: #1e1e1e;
+    border-radius: 10px;
+    height: 50px;
+  }
+}
+
+.title-center {
+  text-align: start;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 3rem;
+}
+
+.container-button-add {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 2%;
+  height: 8%;
+}
+
+.button-add {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48%;
+  transition: transform 0.2s ease-in-out;
+}
+
+.button-add:hover {
+  transform: scale(1.03)
+}
+
+.progress-bar {
+  text-align: end;
+  color: #00bcd4;
+  font-size: 2rem;
+}
+
+.progress-card {
+  margin-bottom: 2%;
+  border-radius: 1.5rem;
+}
+
+.title-progress {
+  font-size: 2rem;
+}
+
+.progress-text {
+  font-size: 1.5rem;
 }
