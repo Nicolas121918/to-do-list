@@ -1,25 +1,30 @@
 <!-- Header-->
 <ion-header>
   <ion-toolbar>
-    <ion-title class="title-center">TareApp</ion-title>
+    <div class="contain-header">
+      <ion-icon name="book-outline"></ion-icon>
+      <ion-title class="title-center">TareApp</ion-title>
+    </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
 
+<ion-content class="ion-padding">
   <!-- ProgressBar-->
-  <ion-card class="progress-card">
-    <ion-card-header>
-      <ion-card-title class="title-progress">Progreso Completado</ion-card-title>
-      <ion-card-title class="progress-bar">0/3</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <div class="progress-container">
-        <ion-progress-bar style="height: 8px;"></ion-progress-bar>
-        <div class="progress-text">0% Complete</div>
-      </div>
-    </ion-card-content>
-  </ion-card>
+  <div class="contain-pogressbar">
+    <ion-card class="progress-card">
+      <ion-card-header>
+        <ion-card-title class="title-progress">Tu Progreso Hoy </ion-card-title>
+        <ion-card-title class="progress-bar">{{ progressCount }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="progress-container">
+          <ion-progress-bar class="custom-progress" [value]="progressValue"></ion-progress-bar>
+          <div class="progress-text">{{ progressText }} Progreso Actual</div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
 
   <!-- Botón que despliega el formulario-->
   <div class="container-button-add" *ngIf="!showForm">
@@ -29,6 +34,8 @@
     </ion-button>
   </div>
 
+
+
   <!-- Formulario para agregar nueva tarea -->
   <div class="contain-form" *ngIf="showForm">
     <form (ngSubmit)="submitForm()">
@@ -37,13 +44,15 @@
         <!-- Campo de título-->
         <ion-item>
           <ion-label position="stacked">Título de la Tarea <span class="required-star">*</span></ion-label>
-          <ion-input type="text" placeholder="¿Qué necesitas hacer?" name="taskTitle" required></ion-input>
+          <ion-input type="text" placeholder="¿Qué necesitas hacer?" [(ngModel)]="newtask" name="taskTitle"
+            required></ion-input>
         </ion-item>
 
         <!-- Campo de descripción-->
         <ion-item class="custom-textarea">
           <ion-label position="stacked">Descripción</ion-label>
-          <ion-textarea rows="3" placeholder="Añade más detalles..." name="taskDescription"></ion-textarea>
+          <ion-textarea rows="3" placeholder="Añade más detalles..." [(ngModel)]="descripcion"
+            name="taskDescription"></ion-textarea>
         </ion-item>
 
         <!-- Selector de prioridad y categoría -->
@@ -51,7 +60,8 @@
           <ion-row>
             <ion-col size="6">
               <ion-item>
-                <ion-select aria-label="prioridad" interface="popover" placeholder="Prioridad">
+                <ion-select [(ngModel)]="priority" name="priority" aria-label="prioridad" interface="popover"
+                  placeholder="Prioridad">
                   <ion-select-option value="High">Alta</ion-select-option>
                   <ion-select-option value="Medium">Media</ion-select-option>
                   <ion-select-option value="Low">Baja</ion-select-option>
@@ -61,10 +71,13 @@
 
             <ion-col size="6">
               <ion-item>
-                <ion-select aria-label="Categoría" interface="popover" placeholder="Categoría">
-                  <ion-select-option value="apples">Trabajo</ion-select-option>
-                  <ion-select-option value="oranges">Personal</ion-select-option>
-                  <ion-select-option value="bananas">Estudios</ion-select-option>
+                <ion-select [(ngModel)]="category" name="category" aria-label="Categoría" interface="popover"
+                  placeholder="Categoría">
+                  <ion-select-option value="trabajo">Trabajo</ion-select-option>
+                  <ion-select-option value="personal">Personal</ion-select-option>
+                  <ion-select-option value="estudios">Estudios</ion-select-option>
+
+                  <ion-select-option value="nuevaCategoria">Nueva Categoria</ion-select-option>
                 </ion-select>
               </ion-item>
 
@@ -74,16 +87,24 @@
         </ion-grid>
 
         <!-- Selector de fecha de vencimiento -->
-        <ion-item class="date-input">
-          <ion-label position="stacked">Fecha de Vencimiento</ion-label>
-          <ion-datetime-button datetime="dueDate"></ion-datetime-button>
-          <ion-modal [keepContentsMounted]="true">
-            <ng-template>
-              <ion-datetime id="dueDate" presentation="date" displayFormat="dd/mm/aaaa"
-                name="taskDueDate"></ion-datetime>
-            </ng-template>
-          </ion-modal>
+        <ion-item>
+          <ion-label>Fecha de vencimiento</ion-label>
+          <ion-button fill="outline" (click)="openDatetimePicker()">
+            {{ fechaVencimiento ? (fechaVencimiento | date:'shortDate') : 'Seleccionar fecha' }}
+          </ion-button>
         </ion-item>
+
+        <div *ngIf="showDatetimePicker" class="datetime-wrapper">
+          <ion-datetime class="mini-datetime" mode="md" presentation="date" #datetime [(ngModel)]="fechaVencimiento"
+            name="dueDate" min="2025-11-01T00:00:00">
+            <ion-buttons slot="buttons">
+              <ion-button color="danger" (click)="datetime.reset()">Limpiar</ion-button>
+              <ion-button color="primary" (click)="datetime.cancel(); closeDatetimePicker()">Cancelar</ion-button>
+              <ion-button color="primary" (click)="datetime.confirm(); closeDatetimePicker()">Aceptar</ion-button>
+            </ion-buttons>
+          </ion-datetime>
+        </div>
+
 
       </ion-list>
 
@@ -101,16 +122,83 @@
     </form>
   </div>
 
+  <div class="search-bar">
+    <!-- Barra de búsqueda -->
+    <ion-searchbar color="Dark" placeholder="Buscar tarea" class="ion-padding"></ion-searchbar>
+  </div>
+
+  <!-- Sección de categorías -->
+  <div class="categories-section">
+    <div class="categories-row" role="list">
+      <button type="button" class="category-pill" [class.active]="selectedCategory === 'all'"
+        (click)="selectCategory('all')">Todas</button>
+      <button type="button" class="category-pill" [class.active]="selectedCategory === 'work'"
+        (click)="selectCategory('work')">Work</button>
+      <button type="button" class="category-pill" [class.active]="selectedCategory === 'personal'"
+        (click)="selectCategory('personal')">Personal</button>
+      <button type="button" class="category-pill" [class.active]="selectedCategory === 'health'"
+        (click)="selectCategory('health')">Health</button>
+      <button type="button" class="category-pill" [class.active]="selectedCategory === 'shopping'"
+        (click)="selectCategory('shopping')">Shopping</button>
+      <ion-icon slot="start" name="add" size="large"></ion-icon>
+    </div>
+  </div>
+
+
+
+
+
+
   <!-- Segmento para filtrar Por Categorias-->
-  <ion-segment color="primary" value="success">
-    <ion-segment-button value="success">
-      <ion-label>Todas Las Tareas</ion-label>
+  <ion-segment color="primary" [(ngModel)]="segmentValue">
+    <ion-segment-button value="all">
+      <ion-label>Tareas</ion-label>
     </ion-segment-button>
     <ion-segment-button value="Actives">
       <ion-label>Activas</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="Completed">
+    <ion-segment-button value="completed">
       <ion-label>Completadas</ion-label>
     </ion-segment-button>
   </ion-segment>
+
+
+
+  <!-- Lista de tareas filtrada según segmento -->
+  <div class="homeworks-container">
+    <ion-item *ngFor="let task of filteredTasks(); let i = index" class="ionic-homeworks-list">
+      <ion-checkbox slot="start" [checked]="task.completed" (ionChange)="toggleTask(i)"></ion-checkbox>
+
+      <ion-label>
+        <h2>{{ task.title }}</h2>
+        <h3>{{ task.description }}</h3>
+
+        <div class="task-info">
+          <!-- Categoría -->
+          <span class="chip category-chip">
+            <ion-icon name="briefcase-outline"></ion-icon>
+            {{ task.category }}
+          </span>
+
+          <!-- Prioridad-->
+          <span class="chip priority-chip" [ngClass]="task.priority.toLowerCase()">
+            {{ task.priority }}
+          </span>
+
+          <!-- Fecha límite No menor a este mes  -->
+          <span class="chip date-chip" *ngIf="task.dueDate">
+            <ion-icon name="calendar-outline"></ion-icon>
+            {{ task.dueDate | date:'dd MMM' }}
+          </span>
+        </div>
+
+      </ion-label>
+
+      <ion-button fill="clear" color="danger" (click)="deleteTask(i)">
+        <ion-icon name="trash-outline" size="large"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </div>
+
+
 </ion-content>

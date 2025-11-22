@@ -28,6 +28,11 @@ import {
   IonDatetimeButton,
   IonModal,
   IonDatetime,
+  IonButtons,
+  IonMenu,
+  IonMenuButton,
+  IonApp,
+  IonSearchbar,
 } from '@ionic/angular/standalone';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -66,14 +71,26 @@ import { TaskService } from '../services/task.service';
     IonSelectOption,
     IonDatetimeButton,
     IonModal,
-    IonDatetime
+    IonDatetime,
+    IonButtons,
+    IonMenu,
+    IonMenuButton,
+    IonApp,
+    IonSearchbar
   ],
 })
 export class HomePage {
   newtask: string = "";
+  descripcion: string = "";
+  priority: string = "";
+  category: string = "";
+  fechaVencimiento: string = "";
+  segmentValue: string = 'all';
+  selectedCategory: string = 'all';
   tasks: any[] = [];
   // control visibility del formulario
   showForm: boolean = false;
+  showDatetimePicker: boolean = false;
   constructor(private taskservices: TaskService) { }
 
   // se ejecuta cada vez que la vista esta por mostrarse y actualiza los datos antes de renderizar igual que En React → (useEffect)
@@ -84,16 +101,32 @@ export class HomePage {
     if (this.newtask.trim() !== "") {
       this.taskservices.addTask({
         title: this.newtask,
-        completed: false
+        completed: false,
+        dueDate: this.fechaVencimiento,
+        description: this.descripcion,
+        priority: this.priority,
+        category: this.category
       });
+      // reset campos del formulario
       this.newtask = "";
+      this.descripcion = "";
+      this.priority = "Medium";
+      this.category = "trabajo";
+      this.fechaVencimiento = "";
     }
+    this.tasks = this.taskservices.getasks();
   }
+  // Cambia el estado de completada o no completada
   toggleTask(index: number) {
     this.taskservices.toggleTaskStatus(index);
+    // refrescar la lista local para que los getters vean el cambio
+    this.tasks = this.taskservices.getasks();
   }
+  //Elimina la tarea en esa posicion
   deleteTask(index: number) {
     this.taskservices.deleteTask(index);
+    // refrescar la lista local para que los getters vean el cambio
+    this.tasks = this.taskservices.getasks();
   }
 
   // Mostrar el formulario
@@ -106,14 +139,59 @@ export class HomePage {
     this.showForm = false;
   }
 
-  // Manejar submit del formulario (por ahora cierra el form y puede añadirse lógica extra)
+  // Mostrar u ocultar el selector de fecha
+  openDatetimePicker() {
+    this.showDatetimePicker = true;
+  }
+  // Cerrar el selector de fecha
+  closeDatetimePicker() {
+    this.showDatetimePicker = false;
+  }
+
+  // Manejar submit del formulario cierrandolo y agregando la tarea
   submitForm() {
-    // Aquí podrías llamar a addTask() si los campos estuvieran ligados a propiedades
-    // this.addTask();
+    this.addTask();
     this.closeForm();
+  }
+  // Filtrar tareas según el segmento seleccionado
+  filteredTasks() {
+    if (this.segmentValue === 'all') {
+      return this.tasks;
+    } else if (this.segmentValue === 'completed') {
+      return this.tasks.filter(task => task.completed);
+    }
+    // retorna las tareas y un array vacío si no hay coincidencias
+    return [];
+  }
+  // recibe la categoría seleccionada y la asigna a la variable selectedCategory
+  selectCategory(cat: string) {
+    this.selectedCategory = cat;
+  }
+
+  //obtener el total de tareas
+  get totalTasks(): number {
+    return this.tasks.length;
+  }
+
+  //obtener el total de tareas completadas , obtiene un array con las tareas cuyo boolean completed es true y devuelve su longitud
+  get completedTasks(): number {
+    return this.tasks.filter(t => t.completed).length;
+  }
+  // calcular el progreso como un valor decimal ejemplo: 0.5 = 50% devuelve 0 para evitar errores 
+  get progressValue(): number {
+    return this.totalTasks === 0 ? 0 : this.completedTasks / this.totalTasks;
+  }
+  // mostrar el progreso en formato porcentaje redondeado con Math.round()
+  get progressText(): string {
+    return `${Math.round(this.progressValue * 100)}%`;
+  }
+  // mostrar el total de tareas sobre tareas completadas
+  get progressCount(): string {
+    return `${this.completedTasks}/${this.totalTasks}`;
   }
 
 
 
 }
+
 

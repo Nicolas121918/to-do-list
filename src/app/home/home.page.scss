@@ -1,12 +1,10 @@
 
-
 ion-header {
   ion-toolbar {
     --background: #0a0a0a;
     --color: #ffffff;
   }
 }
-
 .contain-form{
   max-width: 960px;
   width: 95%;
@@ -36,8 +34,6 @@ ion-item {
   color: #00bcd4;
   font-size: 1.2em;
 }
-
-
 
 .custom-textarea {
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -114,7 +110,7 @@ ion-grid {
   justify-content: center;
   width: 100%;
   margin-bottom: 2%;
-  height: 8%;
+  height: 6.5%;
 }
 
 .button-add {
@@ -134,10 +130,17 @@ ion-grid {
   color: #00bcd4;
   font-size: 2rem;
 }
+.contain-pogressbar{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .progress-card {
   margin-bottom: 2%;
   border-radius: 1.5rem;
+  width: 70%;
 }
 
 .title-progress {
@@ -147,3 +150,170 @@ ion-grid {
 .progress-text {
   font-size: 1.5rem;
 }
+
+.datetime-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 0 18px 0;
+}
+
+.mini-datetime {
+  max-width: 420px;
+  width: 92%;
+  background: rgba(255,255,255,0.03);
+  border-radius: 12px;
+  padding: 6px;
+  box-sizing: border-box;
+  --background: transparent;
+}
+.contain-header{
+  display: flex;
+  align-items: center;
+  ion-icon {
+    font-size: 2.5rem;
+    color: #00bcd4;
+  }
+  margin-left: 2%;
+  margin-top: 1%;
+}
+
+.categories-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 1.5rem;
+
+  .categories-title {
+    color: var(--ion-color-medium);
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 12px;
+    letter-spacing: 0.6px;
+  }
+
+  .categories-row {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+  }
+
+  .category-pill {
+    white-space: nowrap;
+    border-radius: 999px;
+    padding: 8px 14px;
+    background: rgba(255,255,255,0.04);
+    color: var(--ion-color-light);
+    border: 1px solid rgba(255,255,255,0.06);
+    font-size: 14px;
+    cursor: pointer;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .category-pill.active {
+    background: var(--ion-color-primary);
+    color: #fff;
+    box-shadow: 0 2px 0 rgba(0,0,0,0.12);
+  }
+}
+.search-bar {
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: center;
+  
+  ion-searchbar {
+    border-radius: 3rem;
+    width: 70%;
+    --background: #ffffff;
+    --color: #222;
+    --placeholder-color: #777;
+    --border-radius: 14px;
+    --box-shadow: none;
+    border: 2px solid #8682828a;
+    transition: all 0.3s ease-in-out;
+    padding: 6px;
+
+    &:hover {
+      border-color: #4c8dff;
+    }
+
+    &.searchbar-input-focused {
+      border-color: #4c8dff;
+      --placeholder-color: #aaa;
+      transform: scale(1.02);
+      box-shadow: 0 0 10px rgba(76, 141, 255, 0.5);
+    }
+  }
+}
+.homeworks-container{
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1%;
+}
+.ionic-homeworks-list{
+  background: transparent;
+  width: 70%;
+  margin: 0 auto;
+  padding: 0;
+  margin-top: 1%;
+}
+
+.custom-progress {
+  --background: #444141; 
+  --progress-background: #00bfd4; 
+}
+  .task-info {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Categoría */
+.category-chip {
+  background: #063b46;
+  color: #34d6e0;
+}
+
+/* Prioridad */
+.priority-chip.low {
+  background: #1e4620;
+  color: #6adf6a;
+}
+
+.priority-chip.medium {
+  background: #4a3d00;
+  color: #ffd700; /* amarillo dorado */
+}
+
+.priority-chip.high {
+  background: #4a0000;
+  color: #ff5b5b;
+}
+
+/* Fecha */
+.date-chip {
+  background: #222;
+  color: #fff;
+}
+
+
+
+

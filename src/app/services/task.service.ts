@@ -8,7 +8,7 @@ import { Injectable } from "@angular/core";
 })
 
 export class TaskService {
-    // inicializamos una este arreglo que acepta cualquier tipo de dato Por ahora 
+    // inicializamos este arreglo que acepta cualquier tipo de dato Por ahora 
     private tasks: any[] = [];
 
     constructor() { }
