@@ -19,7 +19,7 @@ Desarrollada como prueba técnica utilizando Ionic, Angular y Capacitor.
 
 📸 Vista Previa
 
-🧱 Tecnologías Utilizadas
+ 🧱 Tecnologías Utilizadas
 Tecnología	Uso
 Ionic + Angular	Frontend y UI Mobile
 Capacitor	Integración con plataformas móviles
