@@ -38,16 +38,6 @@ Enrutamiento básico y tipado en TS
 
 Adaptación rápida al stack Ionic + Angular, comprendiendo su estructura en poco tiempo
 
-📂 Estructura esencial del proyecto
-src/
- ├─ app/
- │   ├─ home/        # UI y lógica principal
- │   ├─ services/    # CRUD + localStorage
- │   └─ app.routes.ts
- ├─ index.html
- └─ global.scss
-capacitor.config.ts
-package.json
 
 🛠️ Instalación y ejecución
 npm install
