@@ -49,7 +49,6 @@ src/
 capacitor.config.ts
 package.json
 
-
 🛠️ Instalación y ejecución
 npm install
 npm run start   # http://localhost:4200
