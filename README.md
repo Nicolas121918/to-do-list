@@ -19,9 +19,6 @@ Desarrollada como prueba técnica utilizando Ionic, Angular y Capacitor.
 
 📸 Vista Previa
 
-(Aquí puedes colocar screenshots si deseas)
-📍 Ejemplo: src/assets/screenshots/home.png
-
 🧱 Tecnologías Utilizadas
 Tecnología	Uso
 Ionic + Angular	Frontend y UI Mobile
