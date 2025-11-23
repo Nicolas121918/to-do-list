@@ -11,7 +11,21 @@ export class TaskService {
     // inicializamos este arreglo que acepta cualquier tipo de dato Por ahora 
     private tasks: any[] = [];
 
-    constructor() { }
+    constructor() {
+        // cargar tareas guardadas en el localstorage
+        this.loadTasks();
+    }
+    //Almacenamineto local de las tareas LocalStorage
+    private saveTasks() {
+        localStorage.setItem('tasks', JSON.stringify(this.tasks));
+    }
+    // cargar tareas del almacenamiento local
+    private loadTasks() {
+        const tasksJson = localStorage.getItem('tasks');
+        if (tasksJson) {
+            this.tasks = JSON.parse(tasksJson);
+        }
+    }
 
     // Get para obtener todas las tareas y depues visualizarlas 
     getasks() {
@@ -20,10 +34,12 @@ export class TaskService {
     // recibe una tarea como parametro de cualquier tipo y la inserta en el array (tasks)
     addTask(task: any) {
         this.tasks.push(task)
+        this.saveTasks();
     }
     //Elimina una tarea con esa posicion    
     deleteTask(index: number) {
         this.tasks.splice(index, 1)
+        this.saveTasks();
     }
 
     // recibe un indice para marcarla como completada o no completada 
@@ -31,6 +47,7 @@ export class TaskService {
         /* this.tasks[index].completed =
             this.tasks[index].completed ? false : true; */
         this.tasks[index].completed = !this.tasks[index].completed;
+        this.saveTasks();
     }
 
 }
