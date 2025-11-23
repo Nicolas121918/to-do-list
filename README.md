@@ -1,88 +1,101 @@
-📌 TareApp — Lista de tareas (Ionic + Angular)
+📌 TareApp — Gestión de Tareas con Ionic + Angular
 
-Aplicación para gestionar tareas con categorías, prioridad, fecha de vencimiento y barra de progreso.
-Construida con Ionic + Angular usando standalone components y persistencia en LocalStorage.
+Aplicación móvil y web para gestionar tareas con una interfaz moderna, barra de progreso dinámico y almacenamiento local.
+Desarrollada como prueba técnica utilizando Ionic, Angular y Capacitor.
 
-🚀 Tecnologías utilizadas
+✨ Características
+
+✔️ Crear tareas
+
+🔄 Marcar tareas como completadas
+
+📊 Barra de progreso actualizada en tiempo real
+
+💾 Guardado automático en LocalStorage
+
+📱 Soporte para Android e iOS
+
+🖥 Ejecutable también desde el navegador
+
+📸 Vista Previa
+
+(Aquí puedes colocar screenshots si deseas)
+📍 Ejemplo: src/assets/screenshots/home.png
+
+🧱 Tecnologías Utilizadas
 Tecnología	Uso
-Angular 20	Lógica y estructura de la app
-Ionic Framework	UI móvil y componentes
-Capacitor	Integración con dispositivos Android/iOS
-TypeScript / SCSS / HTML	Desarrollo frontend
+Ionic + Angular	Frontend y UI Mobile
+Capacitor	Integración con plataformas móviles
 LocalStorage	Persistencia de datos
-✨ Funcionalidades principales
+TypeScript	Lógica de negocio
+🛠️ Instalación
 
-➕ Agregar y eliminar tareas
+Clona el proyecto:
 
-✔ Marcar tareas como completadas
+git clone https://github.com/tu-usuario/TareApp.git
+cd TareApp
 
-🔥 Barra de progreso dinámica
 
-🏷 Categoría y prioridad
+Instala dependencias:
 
-📅 Fecha de vencimiento
-
-🔍 Filtro de tareas por estado
-
-🧠 Aprendizajes y buenas prácticas
-
-Adaptación rápida al stack Ionic + Angular y su arquitectura
-
-Uso de standalone components
-
-Lógica desacoplada en TaskService
-
-UX móvil con Ionic Components
-
-Tipado y enrutamiento básico en TS/Angular
-
-Buen manejo de estado simple con LocalStorage
-
-🛠️ Instalación y ejecución en web
 npm install
-npm run start  # http://localhost:4200
 
-📦 Compilar para producción
+▶️ Ejecución en entorno web
+npm run start
+
+
+Abrir en el navegador:
+👉 http://localhost:4200/
+
+📱 Ejecución en dispositivos móviles
+
+⚠️ Antes de ejecutar en móvil, compilar la app:
+
 npm run build
 npx cap sync
 
-📱 Ejecutar en dispositivos
-🔹 Android
+🤖 Android
 
-Requisitos: Android Studio + AVD o celular con depuración USB
+Requisitos:
 
-npm install
-npm run build
-npx cap sync android
+Android Studio instalado
+
+Emulador configurado o dispositivo con depuración activa
+
+Ejecutar:
+
 npx cap open android
 
 
-➡ Ejecutar desde Android Studio con Run ▶
+En Android Studio → Presionar Run ▶️
 
-🍎 iOS (Solo macOS)
+🍎 iOS (solo macOS)
 
-Requisitos: Xcode + simulador o dispositivo físico
+Requisitos:
 
-npm install
-npm run build
-npx cap sync ios
+Xcode
+
+Simulador o dispositivo físico
+
+Ejecutar:
+
 npx cap open ios
 
 
-➡ Ejecutar en Xcode con ⌘ + R
+En Xcode → Presionar ⌘ + R
 
-Para dispositivos físicos pueden requerirse certificados y permisos adicionales
+Para ejecutar en iPhone físico puede ser necesario configurar certificados
 
-🌱 Futuras mejoras
+🚀 Mejoras futuras
 
-Persistencia local con SQLite
+Notificaciones push
 
-Mejor feedback visual (toasts/animaciones)
+Animaciones al completar tareas
 
-Filtros más avanzados por categoría/fecha
-
-Tests unitarios y E2E
+Base de datos interna (SQLite)
 
 👨‍💻 Autor
 
 Kevin Beltrán
+📍 Bogota – Colombia
+Desarrollador Fullstack
