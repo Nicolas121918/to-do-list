@@ -31,20 +31,20 @@
       </ion-card-content>
     </ion-card>
   </div>
-
+ <!-- *ngIf="!showForm && showNewTaskButton" -->
   <!-- Botón que despliega el formulario -->
-  <div class="container-button-add" *ngIf="!showForm">
+  <div class="container-button-add">
     <ion-button class="button-add" expand="block" shape="round" (click)="openForm()">
       <ion-icon slot="start" name="add"></ion-icon>
       Nueva Tarea
     </ion-button>
   </div>
 
+
   <!-- Formulario para agregar nueva tarea -->
   <div class="contain-form" *ngIf="showForm">
-    <form (ngSubmit)="submitForm()">
+    <form #taskForm="ngForm" (ngSubmit)="submitForm()">
       <ion-list lines="none" class="ionic-list">
-
         <!-- Campo de título -->
         <ion-item>
           <ion-label position="stacked">Título de la Tarea <span class="required-star">*</span></ion-label>
@@ -55,7 +55,8 @@
         <!-- Campo de descripción -->
         <ion-item class="custom-textarea">
           <ion-label position="stacked">Descripción</ion-label>
-          <ion-textarea rows="3" placeholder="Añade más detalles..." [(ngModel)]="descripcion" name="taskDescription">
+          <ion-textarea rows="3" placeholder="Añade más detalles..." [(ngModel)]="descripcion" name="taskDescription"
+            required>
           </ion-textarea>
         </ion-item>
 
@@ -66,7 +67,7 @@
             <!-- Prioridad -->
             <ion-col size="6">
               <ion-item>
-                <ion-select [(ngModel)]="priority" name="priority" aria-label="prioridad" interface="popover"
+                <ion-select [(ngModel)]="priority" name="priority" aria-label="prioridad" interface="popover" required
                   placeholder="Prioridad">
                   <ion-select-option value="High">Alta</ion-select-option>
                   <ion-select-option value="Medium">Media</ion-select-option>
@@ -79,7 +80,7 @@
             <ion-col size="6">
               <ion-item>
                 <ion-label>Categoría</ion-label>
-                <ion-select placeholder="Categoría" [(ngModel)]="category" name="category"
+                <ion-select placeholder="Categoría" [(ngModel)]="category" name="category" required
                   (ionChange)="onCategoryChange($event)">
                   <ion-select-option *ngFor="let c of categories" [value]="c">{{ c }}</ion-select-option>
                   <ion-select-option value="manage_categories">⚙️ Administrar categorías...</ion-select-option>
@@ -129,12 +130,15 @@
         </ion-item>
 
         <div *ngIf="showDatetimePicker" class="datetime-wrapper">
-          <ion-datetime class="mini-datetime" mode="md" presentation="date" #datetime [(ngModel)]="fechaVencimiento"
-            name="dueDate" min="2025-11-01T00:00:00">
+          <ion-datetime class="mini-datetime" mode="md" presentation="date" name="dueDate" #dueDate="ngModel" #datetime
+            [(ngModel)]="fechaVencimiento" required min="2025-11-01T00:00:00">
             <ion-buttons slot="buttons">
               <ion-button color="danger" (click)="datetime.reset()">Limpiar</ion-button>
               <ion-button color="primary" (click)="datetime.cancel(); closeDatetimePicker()">Cancelar</ion-button>
-              <ion-button color="primary" (click)="datetime.confirm(); closeDatetimePicker()">Aceptar</ion-button>
+              <ion-button color="primary"
+                (click)="datetime.confirm(); closeDatetimePicker(); dueDate.control.markAsTouched()">
+                Aceptar
+              </ion-button>
             </ion-buttons>
           </ion-datetime>
         </div>
@@ -143,7 +147,10 @@
 
       <!-- Acciones -->
       <div class="modal-buttons">
-        <ion-button type="submit" expand="block" color="primary" class="save-button">Añadir Tarea</ion-button>
+        <ion-button type="submit" expand="block" color="primary" class="save-button"
+          [disabled]="taskForm.invalid || !fechaVencimiento">
+          Añadir Tarea
+        </ion-button>
         <ion-button type="button" expand="block" fill="outline" color="medium" class="cancel-button"
           (click)="closeForm()">Cancelar</ion-button>
       </div>
@@ -185,9 +192,11 @@
 
   <!-- Lista de tareas filtradas según segmento -->
   <div class="homeworks-container">
-    <ion-item *ngFor="let task of filteredTasks(); let i = index" class="ionic-homeworks-list">
+    <ion-item *ngFor="let task of filteredTasks(); let i = index" class="ionic-homeworks-list"
+      [class.task-completed]="task.completed">
       <ion-toggle slot="start" class="ion-padding" [enableOnOffLabels]="true" [checked]="task.completed"
-        (ionChange)="toggleTask(i)"></ion-toggle>
+        (ionChange)="toggleTask(i)">
+      </ion-toggle>
 
       <ion-label>
         <h2>{{ task.title }}</h2>
