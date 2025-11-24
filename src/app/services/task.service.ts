@@ -1,6 +1,5 @@
 // este archivo podra ser usado desde cualquier parte de la app
 import { Injectable } from "@angular/core";
-import { Task } from '../core/models/task.model';
 
 
 // creamos una instancia de Injectable en el root para poder manejar una sola lista de tareas para toda la app
@@ -9,8 +8,8 @@ import { Task } from '../core/models/task.model';
 })
 
 export class TaskService {
-    // inicializamos este arreglo de tareas tipado con la interface Task
-    private tasks: Task[] = [];
+    // inicializamos este arreglo que acepta cualquier tipo de dato Por ahora 
+    private tasks: any[] = [];
 
     constructor() {
         // cargar tareas guardadas en el localstorage
@@ -33,7 +32,7 @@ export class TaskService {
         return this.tasks;
     }
     // recibe una tarea como parametro de cualquier tipo y la inserta en el array (tasks)
-    addTask(task: Task) {
+    addTask(task: any) {
         this.tasks.push(task)
         this.saveTasks();
     }

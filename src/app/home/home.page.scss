@@ -1,12 +1,3 @@
-ion-content {
-  --background: radial-gradient(circle at 50% 50%,
-      #232931 0%,
-      #0a0a0a 70%,
-      #000000 100%
-    );
-  --border-radius: 12px;
-}
-
 /*  Header */
 ion-header {
   ion-toolbar {
@@ -238,7 +229,6 @@ ion-grid {
   background: rgba(255, 255, 255, 0.04);
   color: rgba(255, 255, 255, 0.363);
   cursor: pointer;
-
   &.active {
     background: var(--ion-color-primary);
     color: #fff;
@@ -439,22 +429,4 @@ ion-grid {
 .loader-container:hover .ring {
   border-color: rgba(255, 102, 255, 0.7);
   box-shadow: 0 0 15px rgba(255, 102, 255, 0.5);
-}
-
-
-/* Estilos para una tarea completada */
-.task-completed {
-  opacity: 0.6;
-  transition: opacity 0.3s ease-in-out;
-
-  ion-label {
-    text-decoration: line-through;
-    font-style: italic;
-  }
-
-  h2,
-  p {
-    text-decoration: inherit;
-    color: inherit;
-  }
 }

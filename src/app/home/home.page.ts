@@ -1,8 +1,8 @@
-import { Component,NgZone } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   IonHeader, IonToolbar, IonTitle, IonContent,
   IonItem, IonInput, IonButton, IonList,
-  IonLabel, IonIcon,
+  IonCheckbox, IonLabel, IonIcon, IonText,
   IonCard, IonCardHeader, IonCardTitle,
   IonCardContent, IonProgressBar, IonSegment,
   IonSegmentButton, IonTextarea, IonGrid,
@@ -13,11 +13,8 @@ import {
 
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { TaskService } from '../../../services/task.service';
+import { TaskService } from '../services/task.service';
 import { AlertController } from '@ionic/angular';
-import { Task } from "../../../core/models/task.model";
-// Remote Config de Firebase
-import { RemoteConfig, fetchAndActivate, getValue } from '@angular/fire/remote-config';
 
 @Component({
   selector: 'app-home',
@@ -25,9 +22,9 @@ import { RemoteConfig, fetchAndActivate, getValue } from '@angular/fire/remote-c
   styleUrls: ['home.page.scss'],
   imports: [
     IonHeader, IonToolbar, IonTitle, IonContent, IonItem,
-    IonInput, IonButton, IonList,
+    IonInput, IonButton, IonList, IonCheckbox,
     IonLabel, FormsModule, CommonModule,
-    IonIcon, IonCard, IonCardHeader,
+    IonIcon, IonText, IonCard, IonCardHeader,
     IonCardTitle, IonCardContent, IonProgressBar,
     IonSegment, IonSegmentButton, IonTextarea,
     IonGrid, IonRow, IonCol, IonSelect, IonSelectOption,
@@ -53,16 +50,9 @@ export class HomePage {
   showDatetimePicker: boolean = false;
   showAdminCategories: boolean = false;
   searchText: string = '';
-  // Remote Config - control de visibilidad del botón "Nueva Tarea"
-  showNewTaskButton: boolean = false; // Valor por defecto: oculto (false)
 
   // inyectar el servicio de tareas en el constructor y el servicio de alertas AlertController
-  constructor(
-    private taskservices: TaskService,
-    private alertCtrl: AlertController,
-    private remoteConfig: RemoteConfig,
-    private ngZone: NgZone
-  ) { }
+  constructor(private taskservices: TaskService, private alertCtrl: AlertController) { }
 
   // se ejecuta cada vez que la vista esta por mostrarse y actualiza los datos antes de renderizar igual que En React → (useEffect)
   ionViewWillEnter() {
@@ -71,25 +61,24 @@ export class HomePage {
     if (storedCategories) {
       this.categories = JSON.parse(storedCategories);
     }
-    // llamar a Remote Config para verificar el feature flag
-    this.checkNewTaskFeatureFlag();
   }
-
-  // FUNCIÓN PARA OBTENER EL VALOR DE REMOTE CONFIG
-  async checkNewTaskFeatureFlag() {
-    try {
-      // Esto es asíncrono y puede tardar un momento.
-      await fetchAndActivate(this.remoteConfig);
-      // 2. Lee el valor usando la clave que defini en fire
-      const flagValue = getValue(this.remoteConfig, 'enable_new_task_button');
-      // 3. Asigna el valor booleano a la variable
-      this.showNewTaskButton = flagValue.asBoolean();
-    } catch (error) {
-      console.error('Error al obtener Remote Config.', error);
+  addTask() {
+    if (this.newtask.trim() !== "") {
+      this.taskservices.addTask({
+        title: this.newtask,
+        completed: false,
+        dueDate: this.fechaVencimiento,
+        description: this.descripcion,
+        priority: this.priority,
+        category: this.category
+      });
+      // reset campos del formulario
+      this.newtask = "";
+      this.descripcion = "";
+      this.priority = "";
+      this.category = "";
+      this.fechaVencimiento = "";
     }
-  }
-  addTask(task: Task) {
-    this.taskservices.addTask(task);
     this.tasks = this.taskservices.getasks();
   }
   // Cambia el estado de completada o no completada
@@ -132,24 +121,8 @@ export class HomePage {
 
   // Manejar submit del formulario cierrandolo y agregando la tarea
   submitForm() {
-    const task: Task = {
-      id: Date.now(),
-      title: this.newtask,
-      description: this.descripcion,
-      priority: this.priority,
-      category: this.category,
-      dueDate: this.fechaVencimiento,
-      completed: false
-    };
-    this.addTask(task);
+    this.addTask();
     this.closeForm();
-
-    // Limpiar campos
-    this.newtask = '';
-    this.descripcion = '';
-    this.priority = '';
-    this.category = '';
-    this.fechaVencimiento = '';
   }
   // Filtrar tareas según el segmento seleccionado y  el texto de búsqueda
   filteredTasks() {
